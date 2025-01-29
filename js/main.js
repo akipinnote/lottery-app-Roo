@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lot types (A-E)
     const lots = ['A', 'B', 'C', 'D', 'E'];
 
+    // Constants for calculations
+    const SLOT_HEIGHT = window.innerWidth <= 480 ? 40 : 48; // Responsive slot height
+
     // Fisher-Yates shuffle algorithm
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -25,11 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopSlot(slotGrid, finalValue, delay) {
         return new Promise(resolve => {
             setTimeout(() => {
+                // Remove spinning animation
                 slotGrid.style.animation = 'none';
-                // Calculate final position (slot item height is 48px)
-                const finalPosition = -(lots.indexOf(finalValue) * 48);
-                slotGrid.style.transform = `translateY(${finalPosition}px)`;
+                
+                // Force a reflow before applying transform
+                void slotGrid.offsetHeight;
+                
+                // Calculate final position
+                const totalHeight = SLOT_HEIGHT * lots.length;
+                const targetIndex = lots.indexOf(finalValue);
+                const finalPosition = -(targetIndex * SLOT_HEIGHT);
+                
+                // Apply transform with high precision
+                slotGrid.style.transform = `translate3d(0, ${finalPosition}px, 0)`;
+                
+                // Add flash effect to container
                 slotGrid.parentElement.classList.add('slot-flash');
+                
                 resolve();
             }, delay);
         });
@@ -38,11 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to draw lots
     async function drawLots() {
         try {
-            // Disable button
+            // Disable button and update text
             startButton.disabled = true;
             startButton.textContent = 'Drawing...';
             
-            // Clear results container
+            // Reset and show results container
             resultsDiv.innerHTML = '';
             resultContainer.style.display = 'block';
 
@@ -56,13 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsDiv.appendChild(slotElement);
             });
 
-            // Play slot sound in loop
+            // Start sound effect
             slotSound.loop = true;
-            slotSound.play();
+            slotSound.play().catch(() => {/* Handle autoplay restrictions */});
 
             // Start all slot animations
             const slotGrids = document.querySelectorAll('.slot-grid');
             slotGrids.forEach(grid => {
+                // Reset transform and force reflow
+                grid.style.transform = 'translate3d(0, 0, 0)';
+                void grid.offsetHeight;
+                
+                // Start spinning animation
                 grid.style.animation = 'slotSpin 0.1s linear infinite';
             });
 
@@ -72,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const promise = stopSlot(
                     grid,
                     shuffledLots[index],
-                    2000 + (index * 500) // Each slot stops with 500ms delay
+                    2000 + (index * 500) // Progressive delay
                 );
                 stopPromises.push(promise);
             });
@@ -80,15 +100,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Wait for all slots to stop
             await Promise.all(stopPromises);
 
-            // Stop slot sound and play result sound
+            // Play result sound
             slotSound.pause();
             slotSound.currentTime = 0;
-            resultSound.play();
+            resultSound.play().catch(() => {/* Handle autoplay restrictions */});
 
-            // Wait for animation completion before updating button
+            // Wait for final animation
             await new Promise(resolve => setTimeout(resolve, 500));
         } finally {
-            // Re-enable button and update text
+            // Re-enable button with updated text
             startButton.textContent = 'Draw Again';
             startButton.disabled = false;
         }
