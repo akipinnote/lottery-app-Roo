@@ -16,7 +16,7 @@ body {
 
 .container {
     text-align: center;
-    padding: 3rem;
+    padding: 2.5rem 3rem;
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -29,7 +29,7 @@ body {
 
 h1 {
     color: #1d1d1f;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     font-size: 3.5rem;
     font-weight: 600;
     letter-spacing: -0.003em;
@@ -37,7 +37,7 @@ h1 {
 
 h2 {
     color: #1d1d1f;
-    margin: 2rem 0;
+    margin: 1.5rem 0 1rem;
     font-size: 2.5rem;
     font-weight: 500;
     letter-spacing: -0.002em;
@@ -72,40 +72,41 @@ h2 {
 }
 
 .result-container {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
 }
 
 .results {
     display: grid;
-    gap: 1.5rem;
+    gap: 0.75rem;
     font-size: 2rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .result-item {
-    padding: 1.5rem;
+    padding: 0.75rem 1.25rem;
     background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 14px;
+    border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    height: 3.5rem;
 }
 
 .result-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .slot-container {
     position: relative;
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     overflow: hidden;
     background-color: #0071e3;
-    border-radius: 12px;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .slot-wrapper {
@@ -118,13 +119,13 @@ h2 {
 
 .slot-item {
     width: 100%;
-    height: 60px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 1.75rem;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -133,7 +134,7 @@ h2 {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-300px);
+        transform: translateY(-240px);
     }
 }
 
@@ -158,7 +159,7 @@ h2 {
 }
 
 .participant-name {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: #1d1d1f;
     font-weight: 500;
     letter-spacing: -0.01em;
@@ -172,10 +173,12 @@ h2 {
 
     h1 {
         font-size: 2.5rem;
+        margin-bottom: 1.5rem;
     }
 
     h2 {
         font-size: 2rem;
+        margin: 1rem 0 0.75rem;
     }
 
     .start-button {
@@ -184,20 +187,25 @@ h2 {
     }
 
     .results {
-        font-size: 1.5rem;
+        gap: 0.5rem;
+    }
+
+    .result-item {
+        padding: 0.5rem 1rem;
+        height: 3rem;
     }
 
     .slot-container {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     }
 
     .slot-item {
-        height: 50px;
+        height: 40px;
         font-size: 1.5rem;
     }
 
     .participant-name {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 }
