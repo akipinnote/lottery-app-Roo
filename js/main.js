@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // スロットを停止する関数
-    async function stopSlot(slotWrapper, finalValue, delay) {
+    function stopSlot(slotWrapper, finalValue, delay) {
         return new Promise(resolve => {
             setTimeout(() => {
                 slotWrapper.style.animation = 'none';
@@ -35,52 +35,83 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // アニメーション完了を待機する関数
+    function waitForAnimation(element) {
+        return new Promise(resolve => {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'style' && 
+                        mutation.target.style.animation === 'none') {
+                        observer.disconnect();
+                        resolve();
+                    }
+                });
+            });
+            
+            observer.observe(element, {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        });
+    }
+
     // くじ引きを実行する関数
     async function drawLots() {
-        // ボタンを無効化
-        startButton.disabled = true;
-        
-        // 結果コンテナをクリア
-        resultsDiv.innerHTML = '';
-        resultContainer.style.display = 'block';
+        try {
+            // ボタンを無効化
+            startButton.disabled = true;
+            startButton.textContent = '抽選中...';
+            
+            // 結果コンテナをクリア
+            resultsDiv.innerHTML = '';
+            resultContainer.style.display = 'block';
 
-        // くじをシャッフル
-        const shuffledLots = shuffle([...lots]);
+            // くじをシャッフル
+            const shuffledLots = shuffle([...lots]);
 
-        // 各参加者のスロットを作成
-        participants.forEach((participant, index) => {
-            const slotElement = slotTemplate.content.cloneNode(true);
-            slotElement.querySelector('.participant-name').textContent = participant;
-            resultsDiv.appendChild(slotElement);
-        });
+            // 各参加者のスロットを作成
+            participants.forEach((participant, index) => {
+                const slotElement = slotTemplate.content.cloneNode(true);
+                slotElement.querySelector('.participant-name').textContent = participant;
+                resultsDiv.appendChild(slotElement);
+            });
 
-        // スロットサウンドをループ再生
-        slotSound.loop = true;
-        slotSound.play();
+            // スロットサウンドをループ再生
+            slotSound.loop = true;
+            slotSound.play();
 
-        // 全てのスロットを回転開始
-        const slotWrappers = document.querySelectorAll('.slot-wrapper');
-        slotWrappers.forEach(wrapper => {
-            wrapper.style.animation = 'slotSpin 0.1s linear infinite';
-        });
+            // 全てのスロットを回転開始
+            const slotWrappers = document.querySelectorAll('.slot-wrapper');
+            slotWrappers.forEach(wrapper => {
+                wrapper.style.animation = 'slotSpin 0.1s linear infinite';
+            });
 
-        // 各スロットを順番に停止
-        for (let i = 0; i < participants.length; i++) {
-            await stopSlot(
-                slotWrappers[i],
-                shuffledLots[i],
-                2000 + (i * 500) // 各スロットは500msずつ遅れて停止
-            );
+            // 各スロットを順番に停止
+            const stopPromises = [];
+            slotWrappers.forEach((wrapper, index) => {
+                const promise = stopSlot(
+                    wrapper,
+                    shuffledLots[index],
+                    2000 + (index * 500) // 各スロットは500msずつ遅れて停止
+                );
+                stopPromises.push(promise);
+            });
+
+            // 全てのスロットが停止するのを待つ
+            await Promise.all(stopPromises);
+
+            // スロットサウンドを停止し、結果サウンドを再生
+            slotSound.pause();
+            slotSound.currentTime = 0;
+            resultSound.play();
+
+            // アニメーション完了を待ってからボタンの状態を更新
+            await new Promise(resolve => setTimeout(resolve, 500));
+        } finally {
+            // ボタンを再度有効化し、テキストを変更
+            startButton.textContent = 'もう一度引く';
+            startButton.disabled = false;
         }
-
-        // スロットサウンドを停止し、結果サウンドを再生
-        slotSound.pause();
-        slotSound.currentTime = 0;
-        resultSound.play();
-
-        // ボタンを再度有効化
-        startButton.disabled = false;
-        startButton.textContent = 'もう一度引く';
     }
 
     // ボタンクリックイベントの設定
