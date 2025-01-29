@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to stop slot animation
-    function stopSlot(slotWrapper, finalValue, delay) {
+    function stopSlot(slotGrid, finalValue, delay) {
         return new Promise(resolve => {
             setTimeout(() => {
-                slotWrapper.style.animation = 'none';
-                // Calculate final position (slot item height is 60px)
-                const finalPosition = -(lots.indexOf(finalValue) * 60);
-                slotWrapper.style.top = `${finalPosition}px`;
-                slotWrapper.parentElement.classList.add('slot-flash');
+                slotGrid.style.animation = 'none';
+                // Calculate final position (slot item height is 48px)
+                const finalPosition = -(lots.indexOf(finalValue) * 48);
+                slotGrid.style.transform = `translateY(${finalPosition}px)`;
+                slotGrid.parentElement.classList.add('slot-flash');
                 resolve();
             }, delay);
         });
@@ -61,16 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
             slotSound.play();
 
             // Start all slot animations
-            const slotWrappers = document.querySelectorAll('.slot-wrapper');
-            slotWrappers.forEach(wrapper => {
-                wrapper.style.animation = 'slotSpin 0.1s linear infinite';
+            const slotGrids = document.querySelectorAll('.slot-grid');
+            slotGrids.forEach(grid => {
+                grid.style.animation = 'slotSpin 0.1s linear infinite';
             });
 
             // Stop slots one by one
             const stopPromises = [];
-            slotWrappers.forEach((wrapper, index) => {
+            slotGrids.forEach((grid, index) => {
                 const promise = stopSlot(
-                    wrapper,
+                    grid,
                     shuffledLots[index],
                     2000 + (index * 500) // Each slot stops with 500ms delay
                 );
