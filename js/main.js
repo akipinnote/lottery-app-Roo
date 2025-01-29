@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultSound = document.getElementById('resultSound');
     const slotTemplate = document.getElementById('slotTemplate');
 
-    // 参加者の配列
-    const participants = ['参加者1', '参加者2', '参加者3', '参加者4', '参加者5'];
+    // Participants array
+    const participants = ['Ueda', 'Ojima', 'Maruo', 'Mimura', 'Abe'];
     
-    // くじの種類（A-E）
+    // Lot types (A-E)
     const lots = ['A', 'B', 'C', 'D', 'E'];
 
-    // Fisher-Yatesシャッフルアルゴリズム
+    // Fisher-Yates shuffle algorithm
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return array;
     }
 
-    // スロットを停止する関数
+    // Function to stop slot animation
     function stopSlot(slotWrapper, finalValue, delay) {
         return new Promise(resolve => {
             setTimeout(() => {
                 slotWrapper.style.animation = 'none';
-                // 最終位置を計算（各スロットアイテムの高さは60px）
+                // Calculate final position (slot item height is 60px)
                 const finalPosition = -(lots.indexOf(finalValue) * 60);
                 slotWrapper.style.top = `${finalPosition}px`;
                 slotWrapper.parentElement.classList.add('slot-flash');
@@ -35,89 +35,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // アニメーション完了を待機する関数
-    function waitForAnimation(element) {
-        return new Promise(resolve => {
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.attributeName === 'style' && 
-                        mutation.target.style.animation === 'none') {
-                        observer.disconnect();
-                        resolve();
-                    }
-                });
-            });
-            
-            observer.observe(element, {
-                attributes: true,
-                attributeFilter: ['style']
-            });
-        });
-    }
-
-    // くじ引きを実行する関数
+    // Function to draw lots
     async function drawLots() {
         try {
-            // ボタンを無効化
+            // Disable button
             startButton.disabled = true;
-            startButton.textContent = '抽選中...';
+            startButton.textContent = 'Drawing...';
             
-            // 結果コンテナをクリア
+            // Clear results container
             resultsDiv.innerHTML = '';
             resultContainer.style.display = 'block';
 
-            // くじをシャッフル
+            // Shuffle lots
             const shuffledLots = shuffle([...lots]);
 
-            // 各参加者のスロットを作成
+            // Create slot elements for each participant
             participants.forEach((participant, index) => {
                 const slotElement = slotTemplate.content.cloneNode(true);
                 slotElement.querySelector('.participant-name').textContent = participant;
                 resultsDiv.appendChild(slotElement);
             });
 
-            // スロットサウンドをループ再生
+            // Play slot sound in loop
             slotSound.loop = true;
             slotSound.play();
 
-            // 全てのスロットを回転開始
+            // Start all slot animations
             const slotWrappers = document.querySelectorAll('.slot-wrapper');
             slotWrappers.forEach(wrapper => {
                 wrapper.style.animation = 'slotSpin 0.1s linear infinite';
             });
 
-            // 各スロットを順番に停止
+            // Stop slots one by one
             const stopPromises = [];
             slotWrappers.forEach((wrapper, index) => {
                 const promise = stopSlot(
                     wrapper,
                     shuffledLots[index],
-                    2000 + (index * 500) // 各スロットは500msずつ遅れて停止
+                    2000 + (index * 500) // Each slot stops with 500ms delay
                 );
                 stopPromises.push(promise);
             });
 
-            // 全てのスロットが停止するのを待つ
+            // Wait for all slots to stop
             await Promise.all(stopPromises);
 
-            // スロットサウンドを停止し、結果サウンドを再生
+            // Stop slot sound and play result sound
             slotSound.pause();
             slotSound.currentTime = 0;
             resultSound.play();
 
-            // アニメーション完了を待ってからボタンの状態を更新
+            // Wait for animation completion before updating button
             await new Promise(resolve => setTimeout(resolve, 500));
         } finally {
-            // ボタンを再度有効化し、テキストを変更
-            startButton.textContent = 'もう一度引く';
+            // Re-enable button and update text
+            startButton.textContent = 'Draw Again';
             startButton.disabled = false;
         }
     }
 
-    // ボタンクリックイベントの設定
+    // Set button click event
     startButton.addEventListener('click', drawLots);
 
-    // 効果音の準備（エラー対策）
+    // Prepare sound effects (error prevention)
     const prepareSounds = () => {
         slotSound.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjIwLjEwMAAAAAAAAAAAAAAA//tUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAAFbgCenp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6e//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjM1AAAAAAAAAAAAAAAAJAAAAAAAAAAAAQVuhy5jYgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//vUZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
         resultSound.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjIwLjEwMAAAAAAAAAAAAAAA//tUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAAFbgCenp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6e//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjM1AAAAAAAAAAAAAAAAJAAAAAAAAAAAAQVuhy5jYgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//vUZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';

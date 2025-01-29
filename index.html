@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>くじ引きアプリ</title>
+    <title>Team Lottery</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap">
 </head>
 <body>
     <div class="container">
-        <h1>くじ引きアプリ</h1>
-        <button id="startButton" class="start-button">くじを引く</button>
+        <h1>Team Lottery</h1>
+        <button id="startButton" class="start-button">Draw Lots</button>
         <div id="resultContainer" class="result-container">
-            <h2>結果発表</h2>
+            <h2>Results</h2>
             <div id="results" class="results"></div>
         </div>
     </div>
 
-    <!-- サウンドエフェクト -->
+    <!-- Sound effects -->
     <audio id="slotSound" preload="auto">
         <source src="sounds/slot.mp3" type="audio/mp3">
     </audio>
@@ -24,7 +25,7 @@
         <source src="sounds/result.mp3" type="audio/mp3">
     </audio>
 
-    <!-- スロットのテンプレート -->
+    <!-- Slot template -->
     <template id="slotTemplate">
         <div class="result-item">
             <div class="participant-name"></div>

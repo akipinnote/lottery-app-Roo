@@ -1,0 +1,10 @@
+# Python test files
+tests/
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Requirements file (development only)
+requirements.txt
