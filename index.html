@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>くじ引きアプリ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>くじ引きアプリ</h1>
+        <button id="startButton" class="start-button">くじを引く</button>
+        <div id="resultContainer" class="result-container">
+            <h2>結果発表</h2>
+            <div id="results" class="results"></div>
+        </div>
+    </div>
+
+    <!-- サウンドエフェクト -->
+    <audio id="slotSound" preload="auto">
+        <source src="sounds/slot.mp3" type="audio/mp3">
+    </audio>
+    <audio id="resultSound" preload="auto">
+        <source src="sounds/result.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- スロットのテンプレート -->
+    <template id="slotTemplate">
+        <div class="result-item">
+            <div class="participant-name"></div>
+            <div class="slot-container">
+                <div class="slot-wrapper">
+                    <div class="slot-item">A</div>
+                    <div class="slot-item">B</div>
+                    <div class="slot-item">C</div>
+                    <div class="slot-item">D</div>
+                    <div class="slot-item">E</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

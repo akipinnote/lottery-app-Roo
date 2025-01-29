@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f2f5;
+}
+
+.container {
+    text-align: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+h2 {
+    color: #444;
+    margin: 1.5rem 0;
+    font-size: 2rem;
+}
+
+.start-button {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.start-button:hover {
+    background-color: #45a049;
+}
+
+.start-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.result-container {
+    margin-top: 2rem;
+}
+
+.results {
+    display: grid;
+    gap: 1rem;
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.result-item {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.slot-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    background-color: #2196F3;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}
+
+.slot-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: top 0.5s ease-out;
+}
+
+.slot-item {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+@keyframes slotSpin {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-300px);
+    }
+}
+
+.spinning {
+    animation: slotSpin 0.1s linear infinite;
+}
+
+.slot-flash {
+    animation: flash 0.5s ease-out;
+}
+
+@keyframes flash {
+    0% {
+        background-color: #2196F3;
+    }
+    50% {
+        background-color: #FFC107;
+    }
+    100% {
+        background-color: #2196F3;
+    }
+}
+
+.participant-name {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .start-button {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.6rem;
+    }
+
+    .results {
+        font-size: 1.5rem;
+    }
+
+    .slot-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .slot-item {
+        height: 50px;
+        font-size: 1.5rem;
+    }
+}
