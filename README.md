@@ -1,118 +1,121 @@
-# Team Lottery App 🎲
+# チーム抽選アプリ 🎲
 
-A stylish web application for conducting team lottery draws, featuring smooth animations and an Apple-inspired design aesthetic.
+エレガントなアニメーションとApple風デザインを特徴とする、チーム抽選用Webアプリケーションです。
 
-## 🌐 Live Demo
+## 🌐 デモ
 
-Visit the live application: [Team Lottery App](https://akipinnote.github.io/lottery-app-Roo/)
+以下のURLでアプリケーションを体験できます：
+[チーム抽選アプリ](https://akipinnote.github.io/lottery-app-Roo/)
 
-![Team Lottery App Screenshot](screenshot.png)
+![アプリケーションのスクリーンショット](screenshot.png)
 
-## ✨ Features
+## ✨ 特徴
 
-- **One-Click Lottery Draw**: Simple and intuitive interface
-- **Elegant Animations**: 
-  - Slot machine-style spinning effect
-  - Smooth transitions
-  - Visual feedback with flash effects
-- **Modern Design**:
-  - Apple-inspired minimalist UI
-  - Responsive layout for all devices
-  - Clean typography using SF Pro Display
-- **Real-time Results**: Instant display of lottery results
-- **Accessibility**: Optimized for keyboard and screen reader use
+- **ワンクリック抽選**：
+  - シンプルで直感的なインターフェース
+  - クリック一つで即座に抽選開始
 
-## 🛠 Technical Details
+- **洗練された演出**：
+  - スロットマシン風の回転アニメーション
+  - スムーズな切り替え効果
+  - フラッシュによる視覚的フィードバック
 
-Built with modern web technologies:
+- **モダンなデザイン**：
+  - Apple製品にインスパイアされたミニマルなUI
+  - 全デバイス対応のレスポンシブデザイン
+  - SF Pro Displayによる美しいタイポグラフィ
+
+## 🛠 技術仕様
+
+最新のWeb技術を活用：
 - HTML5
-- CSS3 with Grid and Flexbox
-- Vanilla JavaScript (ES6+)
-- Hardware-accelerated animations
+- CSS3（GridとFlexbox）
+- JavaScript（ES6+）
+- ハードウェアアクセラレーション対応アニメーション
 
-### Performance Optimizations
-- CSS Grid for precise layouts
-- Transform3D for hardware acceleration
-- Efficient DOM manipulation
-- Optimized animation timing
+### パフォーマンス最適化
+- CSSグリッドによる正確なレイアウト
+- Transform3Dによるハードウェア支援
+- 効率的なDOM操作
+- アニメーションタイミングの最適化
 
-## 🚀 Quick Start
+## 🚀 導入方法
 
-1. Clone the repository:
+1. リポジトリのクローン：
 ```bash
 git clone https://github.com/akipinnote/lottery-app-Roo.git
 ```
 
-2. Open in your browser:
+2. ブラウザでの起動：
 ```bash
 cd lottery-app-Roo
 open index.html
 ```
 
-No build process or dependencies required! The app runs directly in the browser.
+ビルド不要で、ブラウザから直接実行できます！
 
-## 📱 Usage
+## 📱 使用方法
 
-1. Open the application in any modern web browser
-2. Click the "Draw Lots" button
-3. Watch the animated lottery draw
-4. See results displayed for all team members
-5. Click "Draw Again" for another round
+1. ブラウザでアプリケーションを開く
+2. 「Draw Lots」ボタンをクリック
+3. アニメーション付きで抽選実行
+4. 全メンバーの結果を表示
+5. 「Draw Again」で再抽選
 
-## 💻 Development
+## 💻 開発者向け情報
 
-### Project Structure
+### プロジェクト構造
 ```
 lottery-app/
-├── index.html          # Main HTML file
+├── index.html          # メインHTML
 ├── css/
-│   └── style.css      # Styles and animations
+│   └── style.css      # スタイルとアニメーション
 ├── js/
-│   └── main.js        # Core functionality
-└── tests/             # Selenium tests
+│   └── main.js        # コア機能
+└── tests/             # Seleniumテスト
 ```
 
-### Running Tests
+### テストの実行
 ```bash
-# Setup Python virtual environment
+# Python仮想環境のセットアップ
 python3 -m venv venv
 source venv/bin/activate
 
-# Install dependencies
+# 依存関係のインストール
 pip install -r requirements.txt
 
-# Run tests
+# テスト実行
 python -m unittest tests/test_lottery.py
 ```
 
-### Key Components
+### 主要コンポーネント
 
-- **Slot Animation System**: 
-  - CSS Grid-based layout
-  - Transform-based animations
-  - Precise timing controls
+- **スロットアニメーションシステム**：
+  - CSSグリッドベースのレイアウト
+  - Transform活用のアニメーション
+  - 正確なタイミング制御
 
-- **Result Generation**:
-  - Fisher-Yates shuffle algorithm
-  - Synchronized animations
-  - Error handling
+- **抽選結果生成**：
+  - Fisher-Yatesシャッフルアルゴリズム
+  - 同期アニメーション
+  - エラー処理
 
-## 🔧 Customization
+## 🔧 カスタマイズ
 
-To modify the participant list, edit the array in `js/main.js`:
+参加者リストの変更は `js/main.js` を編集：
 ```javascript
 const participants = ['Ueda', 'Ojima', 'Maruo', 'Mimura', 'Abe'];
 ```
 
-## 📄 License
+## 📄 ライセンス
 
-MIT License - feel free to use and modify for your needs.
+MITライセンス - 自由に使用・改変可能です。
 
-## 👥 Contributors
+## 👥 開発者
 
-- Initial development: Roo
-- Design inspiration: Apple.com
+- 初期開発: Roo
+- デザインインスピレーション: Apple.com
 
-## 🤝 Contributing
+## 🤝 コントリビューション
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+プルリクエスト歓迎します！
